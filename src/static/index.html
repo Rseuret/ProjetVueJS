@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Movielist</title>
+<meta charset="utf-8"/>
+    <script src="https://unpkg.com/vue"></script>
+
+    <style>
+        ul > li {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <route-view></route-view>
+        <route-view name="add"></route-view>
+        <route-view></route-view>
+        <span v-if="display">
+            {{ message }}
+        </span>
+        <p>First letter : {{firstletter}}</p>
+
+        <p><input type="text" v-model="message" /></p>
+        <p><button v-on:click="newmovie1">Add "New movie"</button></p>
+
+        <hr>
+
+        <p>Movie number : {{movies.length}}</p>
+        <p>New movie<br />
+            Title : <input type="text" v-model="movie_to_add.title" /><br />
+            Year : <input type="text" v-model="movie_to_add.year" /><br />
+            Synopsys : <textarea v-model="movie_to_add.synopsys"></textarea><br />
+            <button v-on:click="newmovie2">Add</button></p>
+
+        Search : <input type="text" v-model="search" />
+        <ul>
+            <li v-for="(movie, index) in movies_search" v-bind:key="movie.title" v-bind:title="message" @click="movie_to_display=movie">
+                <b>{{movie.title}} ({{movie.year}})</b><br />
+                <span v-if="movie_to_display === movie">
+                    {{movie.synopsys}}<br />
+                    <button @click="edit(movie)">Edit</button> <button @click="remove(index)">Remove</button>
+                </span>
+                <br /><br />
+            </li>
+        </ul>
+
+        <p v-if="movie_to_edit">New movie<br />
+            Title : <input type="text" v-model="movie_to_edit.title" /><br />
+            Year : <input type="text" v-model="movie_to_edit.year" /><br />
+            Synopsys : <textarea v-model="movie_to_edit.synopsys"></textarea><br />
+            <button v-on:click="save">Save</button></p>
+
+        <h3>Components</h3>
+        <ul>
+            <movie-item v-on:rm="rmMovie" v-for="movie in movies" v-bind:key="movie.title" v-bind:movie="movie"></movie-item>
+        </ul>
+    </div>
+
+    <script src="../vue/main.js">
+        
+    </script>
+</body>
+</html>
